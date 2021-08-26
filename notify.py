@@ -8,14 +8,11 @@ root_path = os.path.split(cur_path)[0]
 sys.path.append(root_path)
 import requests
 import json
-import traceback
 import time
 import hmac
 import hashlib
 import base64
 import urllib.parse
-from requests.adapters import HTTPAdapter
-from urllib3.util import Retry
 import re
 
 # 通知服务
@@ -96,7 +93,7 @@ def serverJ(title, content):
     else:
         apiStr="http://sms.zhuye.ml/"
     response = requests.post(f"{apiStr}{SCKEY}.send", data=data).json()
-    if response['errno'] == 0:
+    if response['code'] == 0:
         print('推送成功！')
     else:
         print('推送失败！')
@@ -173,9 +170,9 @@ def qywxapp_bot(title, content):
         options = {
             'msgtype': 'textcard',
             'textcard': {
-                title: f'{title}',
-                description: f'{content}',
-                btntxt: '更多'
+                'title': f'{title}',
+                'description': f'{content}',
+                'btntxt': '更多'
             }
         }
     elif qywx_app_params[4] == '1':
