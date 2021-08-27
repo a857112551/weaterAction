@@ -1,11 +1,14 @@
 #!/usr/bin/python3
 #coding=utf-8
+import time
 
 import requests, json
 import os
 
-SCKEY=os.environ.get('SCKEY') ##Server酱推送KEY
-SKey=os.environ.get('SKEY') #CoolPush酷推KEY
+# SCKEY=os.environ.get('SCKEY') ##Server酱推送KEY
+# SKey=os.environ.get('SKEY') #CoolPush酷推KEY
+CITYCODE=os.environ.get('CITYCODE') #itboy地区码
+KEY=os.environ.get('KEY') #tianapi key
 def get_iciba_everyday():
     icbapi = 'http://open.iciba.com/dsapi/'
     eed = requests.get(icbapi)
@@ -15,27 +18,20 @@ def get_iciba_everyday():
     str = '【奇怪的知识】\n' + english + '\n' + zh_CN
     return str
 
-def ServerPush(info): #Server酱推送
-    api = "https://sc.ftqq.com/{}.send".format(SCKEY)
-    title = u"天气推送"
-    content = info.replace('\n','\n\n')
-    data = {
-        "text": title,
-        "desp": content
-    }
-    print(content)
-    requests.post(api, data=data)
-def CoolPush(info): #CoolPush酷推
-    # cpurl = 'https://push.xuthus.cc/group/'+spkey   #推送到QQ群
-    # cpurl = 'https://push.xuthus.cc/send/' + SKey  # 推送到个人QQ
-    api='https://push.xuthus.cc/send/{}'.format(SKey)
-    print(api)
-    print(info)
-    requests.post(api, info.encode('utf-8'))
+def ServerPush(info):
+    cur_path = os.path.abspath(os.path.dirname(__file__))
+    if os.path.exists(cur_path + "/notify.py"):
+        try:
+            from notify import send
+        except:
+            print("加载通知服务失败~")
+        else:
+            send('今日份天气', info)
+
 def main():
     try:
         api = 'http://t.weather.itboy.net/api/weather/city/'             #API地址，必须配合城市代码使用
-        city_code = '101240110'   #进入https://where.heweather.com/index.html查询你的城市代码
+        city_code = CITYCODE   #进入https://where.heweather.com/index.html查询你的城市代码
         tqurl = api + city_code
         response = requests.get(tqurl)
         d = response.json()         #将数据以json形式返回，这个d就是返回的json数据
@@ -58,13 +54,61 @@ def main():
             tips = d["data"]["forecast"][0]["notice"] #温馨提示
             # 天气提示内容
             tdwt = "【今日份天气】\n城市： " + parent + city + \
-                   "\n日期： " + date + "\n星期: " + week + "\n天气: " + weather_type + "\n温度: " + wendu_high + " / "+ wendu_low + "\n湿度: " + \
-                    shidu + "\nPM25: " + pm25 + "\nPM10: " + pm10 + "\n空气质量: " + quality + \
-                   "\n风力风向: " + fx + fl + "\n感冒指数: "  + ganmao + "\n温馨提示： " + tips + "\n更新时间: " + update_time + "\n✁-----------------------------------------\n" + get_iciba_everyday()
-            # print(tdwt)
+                   "\n日期： " + date + \
+                   "\n星期: " + week + \
+                   "\n天气: " + weather_type + \
+                   "\n温度: " + wendu_high + " / "+ wendu_low + \
+                   "\n湿度: " + shidu + \
+                   "\nPM25: " + pm25 + \
+                   "\nPM10: " + pm10 + \
+                   "\n空气质量: " + quality + \
+                   "\n风力风向: " + fx + fl + \
+                   "\n感冒指数: "  + ganmao + \
+                   "\n温馨提示： " + tips
+
+            # 黄历
+            api = 'http://api.tianapi.com/txapi/lunar/index?key='
+            key_code=KEY
+            tqurl = api + key_code
+            response = requests.get(tqurl)
+            d = response.json()
+            if(d['code'] == 200):
+                yinli=d['newslist'][0]['lubarmonth']+d['newslist'][0]['lunarday']
+                yi=d['newslist'][0]['fitness']
+                ji=d['newslist'][0]['taboo']
+                tdwt=tdwt+"\n\n【今日黄历】"+\
+                     "\n阴历："+yinli+\
+                     "\n宜："+yi+\
+                     "\n忌："+ji
+
+            # 节假日
+            api = 'http://api.tianapi.com/txapi/jiejiari/index'
+            key_code=KEY
+            # date=time.strftime("%Y-%m-%d",time.localtime())
+            tqurl = api+"?key=" + key_code+"&date="+date
+            response = requests.get(tqurl)
+            d = response.json()
+            if(d['code'] == 200):
+                leixing=d['newslist'][0]['info']
+                tip=d['newslist'][0]['tip']
+                rest=d['newslist'][0]['rest']
+                wage=d['newslist'][0]['wage']
+                name=d['newslist'][0]['name']
+                if leixing=="工作日" :
+                    tdwt=tdwt+"\n\n【今日放假提示】"+\
+                         "\n今天是："+leixing
+                else:
+                    tdwt=tdwt+"\n\n【今日放假提示】"+ \
+                         "\n今天是："+name + \
+                         "\n放假天数:"+wage+\
+                         "\n提示："+tip+\
+                         "\n拼假建议:"+rest
+
+
             # requests.post(cpurl,tdwt.encode('utf-8'))         #把天气数据转换成UTF-8格式，不然要报错。
+            tdwt=tdwt+"\n\n更新时间: " + update_time + "\n✁-----------------------------------------\n" + get_iciba_everyday()
+            print(tdwt)
             ServerPush(tdwt)
-            CoolPush(tdwt)
     except Exception:
         error = '【出现错误】\n　　今日天气推送错误，请检查服务或网络状态！'
         print(error)
