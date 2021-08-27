@@ -74,7 +74,7 @@ def main():
                 yinli=d['newslist'][0]['lubarmonth']+d['newslist'][0]['lunarday']
                 yi=d['newslist'][0]['fitness']
                 ji=d['newslist'][0]['taboo']
-                tdwt=tdwt+"\n\n【今日黄历】"+\
+                tdwt=tdwt+"\n【今日黄历】"+\
                      "\n阴历："+yinli+\
                      "\n宜："+yi+\
                      "\n忌："+ji
