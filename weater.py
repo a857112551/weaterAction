@@ -5,10 +5,8 @@ import time
 import requests, json
 import os
 
-# SCKEY=os.environ.get('SCKEY') ##Server酱推送KEY
-# SKey=os.environ.get('SKEY') #CoolPush酷推KEY
 CITYCODE=os.environ.get('CITYCODE') #itboy地区码
-KEY=os.environ.get('KEY') #tianapi key
+KEY=os.environ.get('KEY') #tianapikey
 def get_iciba_everyday():
     icbapi = 'http://open.iciba.com/dsapi/'
     eed = requests.get(icbapi)
@@ -26,7 +24,8 @@ def ServerPush(info):
         except:
             print("加载通知服务失败~")
         else:
-            send('今日份天气', info)
+            send('今日份提醒', info)
+            print("加载通知服务成功~")
 
 def main():
     try:
@@ -95,10 +94,10 @@ def main():
                 wage=d['newslist'][0]['wage']
                 name=d['newslist'][0]['name']
                 if leixing=="工作日" :
-                    tdwt=tdwt+"\n\n【今日放假提示】"+\
+                    tdwt=tdwt+"\n【今日放假提示】"+\
                          "\n今天是："+leixing
                 else:
-                    tdwt=tdwt+"\n\n【今日放假提示】"+ \
+                    tdwt=tdwt+"\n【今日放假提示】"+ \
                          "\n今天是："+name + \
                          "\n放假天数:"+wage+\
                          "\n提示："+tip+\
@@ -106,7 +105,7 @@ def main():
 
 
             # requests.post(cpurl,tdwt.encode('utf-8'))         #把天气数据转换成UTF-8格式，不然要报错。
-            tdwt=tdwt+"\n\n更新时间: " + update_time + "\n✁-----------------------------------------\n" + get_iciba_everyday()
+            tdwt=tdwt+"\n\n更新时间: " + update_time + "\n✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁\n" + get_iciba_everyday()
             print(tdwt)
             ServerPush(tdwt)
     except Exception:
