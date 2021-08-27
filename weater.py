@@ -7,6 +7,7 @@ import os
 
 CITYCODE=os.environ.get('CITYCODE') #itboy地区码
 KEY=os.environ.get('KEY') #tianapikey
+
 def get_iciba_everyday():
     icbapi = 'http://open.iciba.com/dsapi/'
     eed = requests.get(icbapi)
@@ -59,11 +60,9 @@ def main():
                    "\n温度: " + wendu_high + " / "+ wendu_low + \
                    "\n湿度: " + shidu + \
                    "\nPM25: " + pm25 + \
-                   "\nPM10: " + pm10 + \
                    "\n空气质量: " + quality + \
                    "\n风力风向: " + fx + fl + \
-                   "\n感冒指数: "  + ganmao + \
-                   "\n温馨提示： " + tips
+                   "\n感冒指数: "  + ganmao
 
             # 黄历
             api = 'http://api.tianapi.com/txapi/lunar/index?key='
@@ -75,7 +74,7 @@ def main():
                 yinli=d['newslist'][0]['lubarmonth']+d['newslist'][0]['lunarday']
                 yi=d['newslist'][0]['fitness']
                 ji=d['newslist'][0]['taboo']
-                tdwt=tdwt+"\n【今日黄历】"+\
+                tdwt=tdwt+"\n\n【今日黄历】"+\
                      "\n阴历："+yinli+\
                      "\n宜："+yi+\
                      "\n忌："+ji
@@ -103,9 +102,9 @@ def main():
                          "\n提示："+tip+\
                          "\n拼假建议:"+rest
 
-
             # requests.post(cpurl,tdwt.encode('utf-8'))         #把天气数据转换成UTF-8格式，不然要报错。
-            tdwt=tdwt+"\n更新时间: " + update_time + "\n✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁\n" + get_iciba_everyday()
+            tdwt=tdwt+"\n更新时间：" + update_time + \
+                 "\n✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁\n" + get_iciba_everyday()
             print(tdwt)
             ServerPush(tdwt)
     except Exception:
