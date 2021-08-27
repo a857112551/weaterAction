@@ -7,7 +7,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: 0 23 * * *
+    - cron: 40 22 * * *
 
 
 
@@ -33,6 +33,7 @@ jobs:
       - name: 'Working'
         env:	#添加环境变量
           SCKEY: ${{ secrets.SCKEY }}
-          SKEY: ${{ secrets.SKEY }}
+          CITYCODE: ${{ secrets.CITYCODE }}
+          KEY: ${{ secrets.KEY }}
         run: python ./weater.py
 
