@@ -25,22 +25,21 @@ TG_PROXY_PORT = ''                                                        # tg�
 DD_BOT_ACCESS_TOKEN = ''                                                  # 钉钉机器人的DD_BOT_ACCESS_TOKEN; secrets可填
 DD_BOT_SECRET = ''                                                        # 钉钉机器人的DD_BOT_SECRET; secrets可填
 QYWX_APP = ''                                                             # 企业微信应用的QYWX_APP; secrets可填 参考http://note.youdao.com/s/HMiudGkb
-
 notify_mode = []
 
 # GitHub action运行需要填写对应的secrets
-if "BARK" in os.environ and os.environ["BARK"]:
-    BARK = os.environ["BARK"]
-if "SCKEY" in os.environ and os.environ["SCKEY"]:
-    SCKEY = os.environ["SCKEY"]
-if "TG_BOT_TOKEN" in os.environ and os.environ["TG_BOT_TOKEN"] and "TG_USER_ID" in os.environ and os.environ["TG_USER_ID"]:
-    TG_BOT_TOKEN = os.environ["TG_BOT_TOKEN"]
-    TG_USER_ID = os.environ["TG_USER_ID"]
-if "DD_BOT_ACCESS_TOKEN" in os.environ and os.environ["DD_BOT_ACCESS_TOKEN"] and "DD_BOT_SECRET" in os.environ and os.environ["DD_BOT_SECRET"]:
-    DD_BOT_ACCESS_TOKEN = os.environ["DD_BOT_ACCESS_TOKEN"]
-    DD_BOT_SECRET = os.environ["DD_BOT_SECRET"]
-if "QYWX_APP" in os.environ and os.environ["QYWX_APP"]:
-    QYWX_APP = os.environ["QYWX_APP"]
+# if "BARK" in os.environ and os.environ["BARK"]:
+#     BARK = os.environ["BARK"]
+# if "SCKEY" in os.environ and os.environ["SCKEY"]:
+#     SCKEY = os.environ["SCKEY"]
+# if "TG_BOT_TOKEN" in os.environ and os.environ["TG_BOT_TOKEN"] and "TG_USER_ID" in os.environ and os.environ["TG_USER_ID"]:
+#     TG_BOT_TOKEN = os.environ["TG_BOT_TOKEN"]
+#     TG_USER_ID = os.environ["TG_USER_ID"]
+# if "DD_BOT_ACCESS_TOKEN" in os.environ and os.environ["DD_BOT_ACCESS_TOKEN"] and "DD_BOT_SECRET" in os.environ and os.environ["DD_BOT_SECRET"]:
+#     DD_BOT_ACCESS_TOKEN = os.environ["DD_BOT_ACCESS_TOKEN"]
+#     DD_BOT_SECRET = os.environ["DD_BOT_SECRET"]
+# if "QYWX_APP" in os.environ and os.environ["QYWX_APP"]:
+#     QYWX_APP = os.environ["QYWX_APP"]
 
 if BARK:
     notify_mode.append('bark')
