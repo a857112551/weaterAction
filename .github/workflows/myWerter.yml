@@ -35,4 +35,10 @@ jobs:
           CITYCODE: ${{ secrets.CITYCODE }}
           KEY: ${{ secrets.KEY }}
         run: python ./weater.py
+      # 删除无用 workflow runs;
+      - name: Delete workflow runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+           retain_days: 0.1
+           keep_minimum_runs: 1
 
