@@ -75,7 +75,7 @@ def main():
                 yinli=d['newslist'][0]['lubarmonth']+d['newslist'][0]['lunarday']
                 yi=d['newslist'][0]['fitness']
                 ji=d['newslist'][0]['taboo']
-                tdwt=tdwt+"\n\n【今日黄历】"+\
+                tdwt=tdwt+"\n【今日黄历】"+\
                      "\n阴历："+yinli+\
                      "\n宜："+yi+\
                      "\n忌："+ji
@@ -105,7 +105,7 @@ def main():
 
 
             # requests.post(cpurl,tdwt.encode('utf-8'))         #把天气数据转换成UTF-8格式，不然要报错。
-            tdwt=tdwt+"\n\n更新时间: " + update_time + "\n✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁\n" + get_iciba_everyday()
+            tdwt=tdwt+"\n更新时间: " + update_time + "\n✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁\n" + get_iciba_everyday()
             print(tdwt)
             ServerPush(tdwt)
     except Exception:
