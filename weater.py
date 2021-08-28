@@ -98,7 +98,7 @@ def main():
                 else:
                     tdwt=tdwt+"\n【今日放假提示】"+ \
                          "\n今天是："+name + \
-                         "\n放假天数:"+wage+\
+                         "\n放假天数:"+str(wage)+\
                          "\n提示："+tip+\
                          "\n拼假建议:"+rest
 
