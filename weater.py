@@ -29,7 +29,7 @@ def ServerPush(info):
             print("加载通知服务成功~")
 
 def main():
-   # try:
+    try:
         api = 'http://t.weather.itboy.net/api/weather/city/'             #API地址，必须配合城市代码使用
         city_code = CITYCODE   #进入https://where.heweather.com/index.html查询你的城市代码
         tqurl = api + city_code
@@ -107,10 +107,10 @@ def main():
                  "\n✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁✁\n" + get_iciba_everyday()
             print(tdwt)
             ServerPush(tdwt)
-    #except Exception:
-      #  error = '【出现错误】\n　　今日天气推送错误，请检查服务或网络状态！'
-      #  print(error)
-       # print(Exception)
+    except Exception:
+        error = '【出现错误】\n　　今日天气推送错误，请检查服务或网络状态！'
+        print(error)
+        print(Exception)
 
 if __name__ == '__main__':
     main()
