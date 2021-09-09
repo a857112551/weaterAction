@@ -7,8 +7,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: 10 23 * * *
-
+    - cron: 30 23 * * *
 
 
 # 工作流是由一个或多个的jobs构成的，在jobs里来说明要交给GitHub aciton执行的任务
@@ -32,6 +31,14 @@ jobs:
         # 运行脚本
       - name: 'Working'
         env:	#添加环境变量
-          SCKEY: ${{ secrets.SCKEY }}
-          SKEY: ${{ secrets.SKEY }}
-        run: python ./herWeater.py
+          SCKEY: ${{ secrets.SCKEY2 }}
+          CITYCODE: ${{ secrets.CITYCODE }}
+          KEY: ${{ secrets.KEY }}
+        run: python ./weater.py
+      # 删除无用 workflow runs;
+      - name: Delete workflow runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+           retain_days: 0.1
+           keep_minimum_runs: 1
+
